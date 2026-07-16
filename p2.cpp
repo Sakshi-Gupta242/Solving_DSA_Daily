@@ -1,63 +1,35 @@
 #include <iostream>
+#include <vector>
 using namespace std;
-
-// Tree Node
-struct TreeNode {
-    int val;
-    TreeNode* left;
-    TreeNode* right;
-
-    TreeNode(int x) {
-        val = x;
-        left = nullptr;
-        right = nullptr;
-    }
-};
 
 class Solution {
 public:
-    TreeNode* searchBST(TreeNode* root, int val) {
+    int removeDuplicates(vector<int>& nums) {
+        int k = 1;
 
-        if (root == nullptr || root->val == val)
-            return root;
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] != nums[k - 1]) {
+                nums[k] = nums[i];
+                k++;
+            }
+        }
 
-        if (val < root->val)
-            return searchBST(root->left, val);
-
-        return searchBST(root->right, val);
+        return k;
     }
 };
 
 int main() {
-
-    // BST
-    //       4
-    //      / \
-    //     2   7
-    //    / \
-    //   1   3
-
-    TreeNode* root = new TreeNode(4);
-    root->left = new TreeNode(2);
-    root->right = new TreeNode(7);
-    root->left->left = new TreeNode(1);
-    root->left->right = new TreeNode(3);
-
-    int val = 2;
+    vector<int> nums = {0,0,1,1,1,2,2,3,3,4};
 
     Solution obj;
-    TreeNode* result = obj.searchBST(root, val);
+    int k = obj.removeDuplicates(nums);
 
-    if (result == nullptr) {
-        cout << "Value not found";
-    } else {
-        cout << "Node Found: " << result->val << endl;
+    cout << "k = " << k << endl;
+    cout << "Array after removing duplicates: ";
 
-        if (result->left)
-            cout << "Left Child: " << result->left->val << endl;
-
-        if (result->right)
-            cout << "Right Child: " << result->right->val << endl;
+    for(int i = 0; i < k; i++) {
+        cout << nums[i] << " ";
     }
 
     return 0;
+}
